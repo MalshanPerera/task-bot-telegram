@@ -47,7 +47,7 @@ The project follows a modular architecture with clean separation of concerns:
 2. Install dependencies:
 
    ```
-   pip install -r requirements.txt
+   pip install python-telegram-bot spacy gspread oauth2client python-dotenv
    python -m spacy download en_core_web_sm
    ```
 
