@@ -1,4 +1,5 @@
 import gspread
+from gspread.exceptions import SpreadsheetNotFound, APIError
 import datetime
 import re
 from oauth2client.service_account import ServiceAccountCredentials
@@ -377,7 +378,20 @@ def get_spreadsheet_url():
     """Get the URL of the spreadsheet for sharing"""
     try:
         client = get_google_client()
-        spreadsheet = client.open(SHEET_NAME)
+
+        # Try to open the spreadsheet
+        try:
+            spreadsheet = client.open(SHEET_NAME)
+            print(f"📊 Opened existing Google Sheet: {SHEET_NAME}")
+        except SpreadsheetNotFound:
+            # Create a new spreadsheet if it doesn't exist
+            spreadsheet = client.create(SHEET_NAME)
+
+            # Make the spreadsheet accessible to anyone with the link (view only)
+            spreadsheet.share(None, perm_type="anyone", role="reader")
+
+            print(f"📊 Created new Google Sheet: {SHEET_NAME}")
+
         return f"https://docs.google.com/spreadsheets/d/{spreadsheet.id}"
     except Exception as e:
         print(f"❌ Failed to get spreadsheet URL: {e}")
