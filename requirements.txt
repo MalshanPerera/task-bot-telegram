@@ -1,0 +1,19 @@
+# Telegram Bot Integration
+python-telegram-bot>=13.7,<14.0
+
+# Natural Language Processing
+spacy>=3.0.0,<4.0.0
+
+# Google Sheets Integration
+gspread>=5.0.0
+oauth2client>=4.1.3
+
+# Environment Variables
+python-dotenv>=0.19.0
+
+# Additional Dependencies
+numpy>=1.20.0
+pandas>=1.3.0
+
+# pull in the English model directly
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0.tar.gz
