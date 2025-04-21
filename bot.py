@@ -109,7 +109,7 @@ async def summary_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def create_bot():
     """Create and configure the bot"""
-    app = ApplicationBuilder().token(BOT_TOKEN).drop_pending_updates(True).build()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # Add command handlers
     app.add_handler(CommandHandler("start", start_command))
