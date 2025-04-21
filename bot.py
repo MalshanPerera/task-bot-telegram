@@ -6,7 +6,7 @@ from telegram.ext import (
     filters,
     ContextTypes,
 )
-from config import BOT_TOKEN, AUTHORIZED_USER
+from config import BOT_TOKEN, AUTHORIZED_USERS
 from task_extraction import extract_tasks_from_message, find_hidden_tasks
 from sheets_manager import (
     append_task_to_sheet,
@@ -26,7 +26,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = message.chat
 
     # Check if the user is authorized
-    is_authorized = user.id == AUTHORIZED_USER
+    is_authorized = user.id in AUTHORIZED_USERS
 
     # If not authorized, exit
     if not is_authorized:
@@ -121,7 +121,9 @@ def create_bot():
     # Set up commands for the command menu
     commands = [
         BotCommand("start", "Start the bot and get help"),
-        BotCommand("sheet", "Get the Google Sheet URL (authorized users only)"),
+        BotCommand(
+            "sheet", "Get the Google Sheet URL (anyone with the link can edit it)"
+        ),
         BotCommand("tabs", "List all available tabs/groups"),
         BotCommand("summary", "Show task count summary"),
     ]

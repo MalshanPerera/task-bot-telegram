@@ -55,7 +55,7 @@ The project follows a modular architecture with clean separation of concerns:
 
    ```
    BOT_TOKEN=your_telegram_bot_token
-   AUTHORIZED_USER=your_telegram_user_id
+   AUTHORIZED_USERS=your_telegram_user_id,your_telegram_user_id
    SHEET_NAME=Your Task Sheet Name
    GOOGLE_PROJECT_ID=your_project_id
    GOOGLE_PRIVATE_KEY_ID=your_key_id

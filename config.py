@@ -7,7 +7,9 @@ load_dotenv()
 
 # Bot configuration
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-AUTHORIZED_USER = int(os.getenv("AUTHORIZED_USER", ""))
+AUTHORIZED_USERS = [
+    int(id) for id in os.getenv("AUTHORIZED_USERS", "").split(",") if id
+]
 SHEET_NAME = os.getenv("SHEET_NAME", "CEO Tasks")
 CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE", "credentials.json")
 
