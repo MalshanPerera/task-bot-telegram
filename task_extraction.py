@@ -92,10 +92,72 @@ def extract_tasks_from_message(message):
         if not is_task:
             is_task = any(indicator in sent_lower for indicator in date_indicators)
 
-        if is_task:
+        if is_task and is_valid_task(sent_text):
             tasks.append(sent_text)
 
     return tasks
+
+
+def is_valid_task(text):
+    """Check if a text is likely a real task and not just an acknowledgment"""
+    # List of common acknowledgments that shouldn't be treated as tasks
+    acknowledgments = [
+        "noted",
+        "ok",
+        "okay",
+        "got it",
+        "thanks",
+        "thank you",
+        "understood",
+        "sure",
+        "alright",
+        "cool",
+        "great",
+        "perfect",
+        "sounds good",
+        "good",
+        "fine",
+        "agreed",
+        "done",
+        "yes",
+        "yeah",
+        "👍",
+        "👌",
+        "✅",
+        "good job",
+        "nice",
+        "well done",
+    ]
+
+    # Clean the text for comparison
+    text_lower = text.lower().strip()
+
+    # Check if it's just an acknowledgment
+    for ack in acknowledgments:
+        if text_lower == ack or text_lower == f"{ack}." or text_lower == f"{ack}!":
+            return False
+
+    # Check if it's too short to be a meaningful task (less than 4 words)
+    words = [w for w in text_lower.split() if w]
+    if len(words) < 4:
+        # Short messages are often not tasks unless they contain task indicators
+        task_indicators = [
+            "please",
+            "need",
+            "must",
+            "should",
+            "review",
+            "check",
+            "do",
+            "make",
+            "get",
+            "prepare",
+        ]
+        has_indicator = any(indicator in text_lower for indicator in task_indicators)
+        if not has_indicator:
+            return False
+
+    return True
 
 
 def find_hidden_tasks(message):
@@ -109,4 +171,4 @@ def find_hidden_tasks(message):
         if section not in hidden_tasks:
             hidden_tasks.append(section.strip())
 
-    return hidden_tasks
+    return [task for task in hidden_tasks if is_valid_task(task)]
