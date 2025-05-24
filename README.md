@@ -6,10 +6,8 @@ CEO Tasks Bot is a Telegram bot that automatically extracts tasks from messages 
 
 ## Features
 
-- **Natural Language Task Extraction**: Identifies tasks from normal conversation using NLP
+- **Simple Task Identification**: Identifies tasks from messages starting with a # symbol
 - **Multi-group Support**: Creates separate worksheet tabs for each chat group
-- **Smart Due Date Detection**: Automatically extracts due dates from message context
-- **Task Categorization**: Automatically categorizes tasks (Meeting, Review, Documentation, Approval, General)
 - **Google Sheets Integration**: Tasks are stored in easily accessible Google Sheets
 - **Permission Management**: Restricts sheet access to authorized users
 - **Command Interface**: Simple commands for managing and viewing tasks
@@ -22,7 +20,6 @@ The project follows a modular architecture with clean separation of concerns:
 
 - Python 3.8+
 - python-telegram-bot: Telegram API integration
-- spaCy: Natural language processing for task detection
 - gspread & oauth2client: Google Sheets API integration
 - python-dotenv: Environment variable management
 
@@ -80,12 +77,11 @@ The project follows a modular architecture with clean separation of concerns:
 
 ### Task Extraction
 
-The bot uses a combination of NLP techniques to identify potential tasks:
+The bot uses a simple approach to identify tasks:
 
-- Keyword detection: Identifies phrases like "please", "need to", etc.
-- Question analysis: Detects questions that imply tasks ("Can you...")
-- Imperative structure: Recognizes command structures
-- Date indicators: Uses temporal references to identify deadlines
+- Any message from an authorized user that starts with a # symbol is considered a task
+- Each line starting with # in a multi-line message is treated as a separate task
+- The # symbol is removed from the beginning of the task when stored
 
 ### Google Sheets Integration
 

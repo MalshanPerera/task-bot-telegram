@@ -1,5 +1,4 @@
 import os
-import spacy
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -21,6 +20,3 @@ GOOGLE_PRIVATE_KEY_ID = os.getenv("GOOGLE_PRIVATE_KEY_ID")
 GOOGLE_PRIVATE_KEY = os.getenv("GOOGLE_PRIVATE_KEY")
 GOOGLE_CLIENT_EMAIL = os.getenv("GOOGLE_CLIENT_EMAIL")
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-
-# Initialize SpaCy model once
-nlp = spacy.load("en_core_web_sm")

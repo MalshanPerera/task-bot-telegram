@@ -17,7 +17,7 @@ from sheets_manager import (
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Process incoming messages and extract tasks"""
+    """Process incoming messages and extract tasks starting with #"""
     message = update.message
     if not message or not message.from_user:
         return
@@ -42,14 +42,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         chat_name = chat.title
 
-    # Extract tasks using both methods
+    # Extract tasks that start with #
     tasks = extract_tasks_from_message(text)
-    hidden_tasks = find_hidden_tasks(text)
-    all_tasks = tasks + [t for t in hidden_tasks if t not in tasks]
 
-    if all_tasks:
+    if tasks:
         tasks_added = 0
-        for task in all_tasks:
+        for task in tasks:
             if append_task_to_sheet(task, user.full_name, text, chat_name, chat.id):
                 tasks_added += 1
 
