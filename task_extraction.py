@@ -3,20 +3,16 @@ import re
 
 def extract_tasks_from_message(message):
     """Extract tasks from a message by checking if it starts with #"""
-    # Split the message into lines to handle multiline messages
-    lines = message.strip().split("\n")
-    tasks = []
+    # Check if the message starts with #
+    message_text = message.strip()
 
-    # Check each line, if it starts with #, it's a task
-    for line in lines:
-        line = line.strip()
-        if line.startswith("#"):
-            # Remove the # and any leading whitespace
-            task = line[1:].strip()
-            if task:  # Make sure there's actual content after the #
-                tasks.append(task)
+    if message_text.startswith("#"):
+        # Remove just the # from the beginning of the message
+        task = message_text[1:].strip()
+        if task:  # Make sure there's actual content after the #
+            return [task]
 
-    return tasks
+    return []
 
 
 def is_valid_task(text):
