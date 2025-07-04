@@ -130,6 +130,7 @@ def get_or_create_worksheet(spreadsheet, chat_name):
             "Due Date",
             "Status",
             "Created Date",
+            "Create Task?",  # <-- new column
         ]
         worksheet.append_row(headers)
 
