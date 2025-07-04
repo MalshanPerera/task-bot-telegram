@@ -249,30 +249,21 @@ def get_next_task_number(worksheet):
     return len(values)  # Already 1-indexed because of header row
 
 
-def append_task_to_sheet(task, from_user, full_message, chat_name, chat_id=None):
+def append_task_to_sheet(task, from_user, full_message, chat_name, answer="Yes"):
     """Add a task to the Google Sheet worksheet for the specific chat"""
     try:
-        # Get timestamp
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Extract due date or use default
         due_date = extract_due_date(task)
         if not due_date:
             due_date = (datetime.datetime.now() + datetime.timedelta(days=7)).strftime(
                 "%Y-%m-%d"
             )
-
-        # Get category
         category = _get_task_category(task)
 
-        # Get or create spreadsheet and worksheet
         spreadsheet = get_or_create_spreadsheet()
         worksheet = get_or_create_worksheet(spreadsheet, chat_name)
-
-        # Get next task number
         task_number = get_next_task_number(worksheet)
 
-        # Add task row
         worksheet.append_row(
             [
                 task_number,
@@ -283,14 +274,13 @@ def append_task_to_sheet(task, from_user, full_message, chat_name, chat_id=None)
                 due_date,
                 "New",
                 timestamp,
+                answer,  # New column: Yes/No
             ]
         )
 
-        # Format the task row
         format_task_row(spreadsheet, worksheet, task_number)
-
         print(
-            f"✅ Task added to Google Sheet ({chat_name}): '{task[:30]}...' from {from_user}"
+            f"✅ Task added to Google Sheet ({chat_name}): '{task[:30]}...' with answer {answer}."
         )
         return True
     except Exception as e:
